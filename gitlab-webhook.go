@@ -63,8 +63,18 @@ func PanicIf(err error, what ...string) {
 var config Config
 
 func main() {
+  var configFile string
+  args := os.Args
+  
+  //if we have a "real" argument we take this as conf path to the config file
+  if(len(args) > 1) {
+    configFile = args[1]
+  } else {
+    configFile = "config.json"
+  }
+  
   //load config
-  config := loadConfig()
+  config := loadConfig(configFile)
 
   //open log file
   writer, err := os.OpenFile(config.Logfile, os.O_RDWR|os.O_APPEND, 0666)
@@ -92,8 +102,8 @@ func main() {
   }
 }
 
-func loadConfig() Config {
-  var file, err = os.Open("config.json")
+func loadConfig(configFile string) Config {
+  var file, err = os.Open(configFile)
   PanicIf(err)
 
   // close file on exit and check for its returned error
