@@ -9,6 +9,9 @@ import(
   "log"
   "errors"
   "strconv"
+  //"fmt"
+  "os/signal"
+  "syscall"
 )
 
 //GitlabRepository represents repository information from the webhook
@@ -61,10 +64,19 @@ func PanicIf(err error, what ...string) {
 }
 
 var config Config
+var configFile string
 
 func main() {
-  var configFile string
   args := os.Args
+
+  sigc := make(chan os.Signal, 1)
+  signal.Notify(sigc, syscall.SIGHUP)
+
+  go func() {
+    <-sigc
+    config = loadConfig(configFile)
+    log.Println("config reloaded")
+  }()
   
   //if we have a "real" argument we take this as conf path to the config file
   if(len(args) > 1) {
