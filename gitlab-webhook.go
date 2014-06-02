@@ -89,7 +89,7 @@ func main() {
   config := loadConfig(configFile)
 
   //open log file
-  writer, err := os.OpenFile(config.Logfile, os.O_RDWR|os.O_APPEND, 0666)
+  writer, err := os.OpenFile(config.Logfile, os.O_RDWR|os.O_APPEND|os.O_CREATE, 0666)
   PanicIf(err)
   
   //close logfile on exit
