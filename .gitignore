@@ -1,8 +1,3 @@
-# Custom
-
-/log.log
-/config.json
-
 # Created by http://www.gitignore.io
 
 ### Go ###
@@ -54,5 +49,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-
+# Custom
+/log.log
+/config.json
 /gitlab-webhook
