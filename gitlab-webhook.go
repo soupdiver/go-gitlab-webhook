@@ -12,6 +12,7 @@ import(
   //"fmt"
   "os/signal"
   "syscall"
+  "strings"
 )
 
 //GitlabRepository represents repository information from the webhook
@@ -156,10 +157,14 @@ func hookHandler(w http.ResponseWriter, r *http.Request) {
   //find matching config for repository name
   for _, repo := range config.Repositories {
     if(repo.Name != hook.Repository.Name) { continue }
-    
+
     //execute commands for repository
     for _, cmd := range repo.Commands {
-      var command = exec.Command(cmd)
+      parts := strings.Fields(cmd)
+      head := parts[0]
+      parts = parts[1:len(parts)]
+      var command = exec.Command(head, parts...)
+
       err = command.Run()
       if(err != nil) {
         log.Println(err)
