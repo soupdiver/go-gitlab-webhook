@@ -164,7 +164,7 @@ func hookHandler(w http.ResponseWriter, r *http.Request) {
         log.Println(err)
       } else {
         log.Println("Executed: " + cmd)
-				log.Println("Output: " + string(out))
+	log.Println("Output: " + string(out))
       }
     }
   }
