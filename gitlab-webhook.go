@@ -9,7 +9,6 @@ import(
   "log"
   "errors"
   "strconv"
-  //"fmt"
   "os/signal"
   "syscall"
 )
@@ -160,11 +159,12 @@ func hookHandler(w http.ResponseWriter, r *http.Request) {
     //execute commands for repository
     for _, cmd := range repo.Commands {
       var command = exec.Command(cmd)
-      err = command.Run()
+      out, err := command.Output()
       if(err != nil) {
         log.Println(err)
       } else {
         log.Println("Executed: " + cmd)
+	log.Println("Output: " + string(out))
       }
     }
   }
